@@ -24,7 +24,7 @@ Créer automatiquement une playlist Spotify contenant **TOUS** vos tracks (saved
 ### 1. Cloner ou créer le projet
 
 ```bash
-cd d:\Websites\SpotifyAllSongOneToOnePlaylist
+cd d:\Websites\SpotifyAllSongToOnePlaylist
 ```
 
 ### 2. Installer les dépendances
