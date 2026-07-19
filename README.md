@@ -16,7 +16,7 @@ Créer automatiquement une playlist Spotify contenant **TOUS** vos tracks (saved
 
 ## 📋 Prérequis
 
-- **Node.js** >= 14.0.0
+- **Node.js** >= 18.0.0
 - **npm** ou **yarn**
 - Un compte **Spotify** (même un compte gratuit fonctionne)
 - Une application Spotify enregistrée sur le [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)

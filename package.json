@@ -8,7 +8,7 @@
     "sync": "node src/index.js",
     "setup": "npm run auth && npm run sync",
     "start": "node src/index.js",
-    "test": "node --test src/",
+    "test": "node --test src/albumCleaner.test.js",
     "albums:list": "node src/listCandidateAlbums.js",
     "albums:delete": "node src/deleteCandidateAlbums.js"
   },
@@ -25,6 +25,6 @@
     "open": "^8.4.2"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   }
 }
