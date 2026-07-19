@@ -7,7 +7,8 @@
     "auth": "node src/auth.js",
     "sync": "node src/index.js",
     "setup": "npm run auth && npm run sync",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test": "node --test src/"
   },
   "keywords": [
     "spotify",
