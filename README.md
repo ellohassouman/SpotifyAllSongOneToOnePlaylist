@@ -12,6 +12,7 @@ Créer automatiquement une playlist Spotify contenant **TOUS** vos tracks (saved
 - ✅ Ajoute les tracks par batch de 100 (limite Spotify)
 - ✅ Gère les erreurs réseau et le renouvellement des tokens
 - ✅ Peut être exécuté plusieurs fois pour synchroniser les nouveaux tracks
+- ✅ Détecte les albums sauvegardés sans aucun titre liké (`npm run albums:list`) et permet de les désaimer après revue interactive (`npm run albums:delete`)
 
 ## 📋 Prérequis
 
@@ -190,6 +191,17 @@ npm run sync
    - Plus sûr si vous soupçonnez des problèmes de cohérence
 
 Pour l'instant, le script utilise l'approche 1 (incrémentale). La stratégie 2 peut être ajoutée en option.
+
+## 🧹 Nettoyer les albums sans titre liké
+
+Repère les albums de ta bibliothèque (>3 titres) dont aucun titre n'est dans tes Liked Songs — souvent des albums sauvegardés par erreur ou jamais écoutés.
+
+```bash
+npm run albums:list     # liste les albums candidats, sauvegarde dans .albumCandidates.json
+npm run albums:delete   # revue interactive : garder ou désaimer chaque album
+```
+
+**Note** : la suppression (`DELETE /me/albums`) nécessite le scope OAuth `user-library-modify`. Si ton token a été généré avant l'ajout de cette fonctionnalité, relance `npm run auth` avant d'utiliser `albums:delete`.
 
 ## 📚 Quels tracks sont synchronisés ?
 
