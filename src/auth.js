@@ -37,6 +37,7 @@ const authorizationUrl = `https://accounts.spotify.com/authorize?${querystring.s
     'playlist-modify-private',
     'playlist-modify-public',
     'user-library-read',
+    'user-library-modify',
     'user-read-private',
     'user-read-email',
   ].join(' '),
