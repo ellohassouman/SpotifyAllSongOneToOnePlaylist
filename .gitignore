@@ -9,3 +9,4 @@ dist/
 .trackSnapshot.json
 .excludedTracks.json
 .playlistCache.json
+.albumCandidates.json
