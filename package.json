@@ -9,7 +9,8 @@
     "setup": "npm run auth && npm run sync",
     "start": "node src/index.js",
     "test": "node --test src/",
-    "albums:list": "node src/listCandidateAlbums.js"
+    "albums:list": "node src/listCandidateAlbums.js",
+    "albums:delete": "node src/deleteCandidateAlbums.js"
   },
   "keywords": [
     "spotify",
