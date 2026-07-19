@@ -57,8 +57,9 @@ Cela ouvrira une fenêtre de navigateur pour configurer votre authentification.
 📊 Résumé final :
    • Tracks synchronisés: ${result.added}
    • Tracks ignorés (déjà présents): ${result.skipped}
+   • Tracks ignorés (exclusion permanente): ${result.excluded}
    • Erreurs: ${result.failed}
-   • Total: ${result.added + result.skipped + result.failed}
+   • Total: ${result.added + result.skipped + result.excluded + result.failed}
 
 🎉 Rendez-vous sur Spotify pour voir votre nouvel playlist "All My Songs" !
 ================================================================================

@@ -6,6 +6,7 @@ Créer automatiquement une playlist Spotify contenant **TOUS** vos tracks (saved
 
 - ✅ Récupère tous vos **saved tracks** (Your Liked Songs)
 - ✅ Récupère tous les **tracks de toutes vos playlists**
+- ✅ Récupère tous les **tracks de tous vos albums sauvegardés**
 - ✅ Déduplique automatiquement
 - ✅ Crée ou réutilise la playlist "All My Songs"
 - ✅ Ajoute les tracks par batch de 100 (limite Spotify)
@@ -56,25 +57,47 @@ SPOTIFY_CLIENT_SECRET=YOUR_CLIENT_SECRET_HERE
 SPOTIFY_REDIRECT_URI=http://localhost:3000/callback
 ```
 
-### 5. S'authentifier
+### 5. Configuration et synchronisation initiale (une commande)
 
-Exécutez le script d'authentification initial :
+**Option simplifiée (recommandée)** : Lancez une seule commande qui gère l'authentification ET la synchronisation :
+
+```bash
+npm run setup
+```
+
+Cela va :
+1. ✅ Ouvrir **automatiquement** votre navigateur pour l'authentification Spotify
+2. ✅ Vous demander les permissions (playlist modification, lecture library)
+3. ✅ Sauvegarder automatiquement vos tokens dans `.env`
+4. ✅ Lancer directement la synchronisation de tous vos tracks
+5. ✅ Créer la playlist "All My Songs" et ajouter les tracks
+
+**Note** : Cette étape ne doit être faite qu'une seule fois. Les tokens sont réutilisables.
+
+**Alternative** : Si vous avez besoin de vous authentifier séparément :
 
 ```bash
 npm run auth
 ```
 
-Cela va :
-1. Vous ouvrir une page d'authentification Spotify
-2. Vous demander les permissions (playlist modification, lecture library)
-3. Sauvegarder automatiquement vos tokens dans `.env`
-4. Remplir `SPOTIFY_REFRESH_TOKEN` et `SPOTIFY_USER_ID`
-
-**Note** : Cette étape ne doit être faite qu'une seule fois. Les tokens sont réutilisables.
-
 ## 🎯 Utilisation
 
-Une fois configuré, lancez la synchronisation :
+### Première synchronisation (une seule commande)
+
+Une fois les dépendances installées et l'environnement configuré :
+
+```bash
+npm run setup
+```
+
+Cette commande enchaîne automatiquement :
+1. ✅ L'authentification (ouvre votre navigateur)
+2. ✅ La synchronisation de tous vos tracks
+3. ✅ La création/mise à jour de la playlist "All My Songs"
+
+### Synchronisations ultérieures
+
+Après la première synchronisation, lancez simplement :
 
 ```bash
 npm run sync
@@ -167,6 +190,21 @@ npm run sync
    - Plus sûr si vous soupçonnez des problèmes de cohérence
 
 Pour l'instant, le script utilise l'approche 1 (incrémentale). La stratégie 2 peut être ajoutée en option.
+
+## 📚 Quels tracks sont synchronisés ?
+
+Le script récupère **TOUS les tracks de votre bibliothèque Spotify** :
+
+✅ **Inclus** :
+- Tous vos **saved tracks** (♥ Your Liked Songs)
+- Tous les **tracks de TOUTES vos playlists** (celles que vous possédez)
+- Tous les **tracks de TOUS vos albums sauvegardés**
+
+❌ **Exclus** (pour le moment) :
+- L'historique d'écoute (recently played)
+- Les playlists que vous suivez mais ne possédez pas
+
+En résumé : **Si un track est dans vos saved songs OU dans l'une de vos playlists OU dans l'un de vos albums, il sera ajouté à "All My Songs"** ✨
 
 ## ⚙️ Configuration avancée
 

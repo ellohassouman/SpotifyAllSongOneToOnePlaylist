@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const querystring = require('querystring');
+const open = require('open');
 
 const {
   SPOTIFY_CLIENT_ID,
@@ -46,17 +47,22 @@ console.log(`
 🎵 Authentification Spotify - Setup Initial
 ================================================================================
 
-1️⃣  Cliquez sur ce lien pour vous authentifier auprès de Spotify :
+🌐 Ouverture de votre navigateur pour l'authentification...
 
-   ${authorizationUrl}
+(Si votre navigateur ne s'ouvre pas, visitez ce lien manuellement:)
+${authorizationUrl}
 
-2️⃣  Vous serez redirigé vers une page de callback après l'authentification.
-
-3️⃣  L'authentification se complètera automatiquement.
+✨ Après authentification, vous serez redirigé et l'authentification se complètera automatiquement.
 
 Attente du callback...
 ================================================================================
 `);
+
+// Ouvrir automatiquement le lien d'authentification dans le navigateur par défaut
+open(authorizationUrl).catch((err) => {
+  console.warn('⚠️  Impossible d\'ouvrir le navigateur automatiquement.');
+  console.log('Ouvrez manuellement le lien ci-dessus.');
+});
 
 // Créer un mini serveur pour capturer le callback
 const server = http.createServer(async (req, res) => {

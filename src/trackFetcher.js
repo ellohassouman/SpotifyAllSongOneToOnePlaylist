@@ -80,7 +80,58 @@ class TrackFetcher {
   }
 
   /**
-   * Récupérer tous les tracks (saved + playlists) avec déduplication
+   * Récupérer tous les tracks de tous les albums sauvegardés de l'utilisateur
+   */
+  async getAllSavedAlbumTracks() {
+    console.log('📥 Récupération de tous les albums sauvegardés...');
+    try {
+      // Récupérer tous les albums sauvegardés de l'utilisateur
+      const albums = await this.spotify.paginate('/me/albums', {}, 'items');
+      console.log(`✅ ${albums.length} albums sauvegardés trouvés`);
+
+      const allTracks = [];
+      const processedIds = new Set();
+
+      for (let i = 0; i < albums.length; i++) {
+        const album = albums[i].album;
+        console.log(`  💿 Album ${i + 1}/${albums.length}: ${album.name}`);
+
+        try {
+          // Récupérer tous les tracks de l'album
+          const tracks = await this.spotify.paginate(
+            `/albums/${album.id}/tracks`,
+            {},
+            'items'
+          );
+
+          for (const track of tracks) {
+            if (track && track.id && !processedIds.has(track.id)) {
+              allTracks.push({
+                id: track.id,
+                uri: track.uri,
+                name: track.name,
+                artist: track.artists[0]?.name || 'Unknown',
+              });
+              processedIds.add(track.id);
+            }
+          }
+
+          console.log(`     └─ ${tracks.length} tracks (${processedIds.size} uniques globales)`);
+        } catch (error) {
+          console.error(`  ❌ Erreur pour l'album ${album.name}:`, error.message);
+        }
+      }
+
+      console.log(`✅ ${allTracks.length} tracks uniques d'albums trouvés`);
+      return allTracks;
+    } catch (error) {
+      console.error('❌ Erreur lors de la récupération des albums sauvegardés:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Récupérer tous les tracks (saved + playlists + albums) avec déduplication
    */
   async getAllTracks() {
     console.log('\n🎵 Récupération de TOUS les tracks...\n');
@@ -88,6 +139,7 @@ class TrackFetcher {
     try {
       const savedTracks = await this.getAllSavedTracks();
       const playlistTracks = await this.getAllPlaylistTracks();
+      const albumTracks = await this.getAllSavedAlbumTracks();
 
       // Dédupliquer par ID
       const trackMap = new Map();
@@ -97,12 +149,16 @@ class TrackFetcher {
       for (const track of playlistTracks) {
         trackMap.set(track.id, track);
       }
+      for (const track of albumTracks) {
+        trackMap.set(track.id, track);
+      }
 
       const allTracks = Array.from(trackMap.values());
 
       console.log(`\n📊 Résumé :`);
       console.log(`   • Saved tracks: ${savedTracks.length}`);
       console.log(`   • Playlist tracks: ${playlistTracks.length}`);
+      console.log(`   • Album tracks: ${albumTracks.length}`);
       console.log(`   • Total unique: ${allTracks.length}`);
 
       return allTracks;
