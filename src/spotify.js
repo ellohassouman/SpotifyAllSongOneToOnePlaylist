@@ -86,6 +86,25 @@ class SpotifyClient {
   }
 
   /**
+   * Faire une requête DELETE à l'API Spotify
+   */
+  async delete(endpoint, params = {}) {
+    const token = await this.getAccessToken();
+    try {
+      const response = await axios.delete(`https://api.spotify.com/v1${endpoint}`, {
+        params,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(`❌ Erreur DELETE ${endpoint}:`, error.response?.data || error.message);
+      throw error;
+    }
+  }
+
+  /**
    * Paginer sur un endpoint et retourner tous les résultats
    */
   async paginate(endpoint, params = {}, itemsKey = 'items') {
